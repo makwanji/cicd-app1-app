@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+    rts_app1_app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: php
+        container_name: rts_app1_app
+        restart: unless-stopped
+        working_dir: /var/www/
+        ports:
+            - "8090:80"
+        volumes:
+            - ./:/var/www
+            - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+        depends_on:
+            - rts_app1_app_mysql_db
+        networks:
+            - "rts-app"
+
+    rts_app1_app_mysql_db:
+        image: mysql:8.0
+        container_name: rts_app1_app_mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+        ports:
+            - "3309:3306"
+        networks:
+            - "rts-app"
+networks:
+    rts-app:
+        driver: bridge

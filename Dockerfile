@@ -20,9 +20,20 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/rts-app
 
 COPY . /var/www/rts-app
 
 RUN a2enmod rewrite
+
 RUN service apache2 restart
+
+RUN composer install
+
+RUN cp .env.example .env
+
+RUN chmod -R 777 storage/
+
+RUN php artisan key:generate
+
+RUN chmod -R 777 bootstrap/cache/

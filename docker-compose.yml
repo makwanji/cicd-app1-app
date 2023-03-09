@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+    rts-app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: rts-app:1.0
+        container_name: rts-app
+        restart: unless-stopped
+        working_dir: /var/www/rts-app
+        ports:
+            - "8090:80"
+
+networks:
+    default:
+        external: true
+        name: cicd

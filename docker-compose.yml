@@ -11,8 +11,6 @@ services:
         ports:
             - "8090:80"
 
-volumes:
-    mysql_data:
 networks:
     default:
         external: true

@@ -10,9 +10,7 @@ services:
         working_dir: /var/www/rts-app
         ports:
             - "8090:80"
-        volumes:
-            - ./:/var/www/rts-app
-            - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+
 volumes:
     mysql_data:
 networks:

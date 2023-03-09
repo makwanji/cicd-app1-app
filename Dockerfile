@@ -22,7 +22,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /var/www/rts-app
 # Set working directory
 WORKDIR /var/www/rts-app
+
 COPY . /var/www/rts-app
+
+COPY ./apache/default.conf /etc/apache2/sites-enabled/000-default.conf
+
 RUN cp .env.example .env
 RUN /usr/sbin/a2enmod rewrite; service apache2 reload; composer install; php artisan key:generate;
 RUN chmod -R 777 /var/www/rts-app/storage; chmod -R 777 /var/www/rts-app/bootstrap/cache/

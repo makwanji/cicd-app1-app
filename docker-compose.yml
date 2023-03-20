@@ -10,7 +10,6 @@ services:
         working_dir: /var/www/rts-app
         ports:
             - "8090:80"
-
 networks:
     default:
         external: true

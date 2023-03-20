@@ -30,3 +30,6 @@ COPY ./apache/default.conf /etc/apache2/sites-enabled/000-default.conf
 RUN cp .env.example .env
 RUN /usr/sbin/a2enmod rewrite; service apache2 reload; composer install; php artisan key:generate;
 RUN chmod -R 777 /var/www/rts-app/storage; chmod -R 777 /var/www/rts-app/bootstrap/cache/
+
+# Update DB_HOST
+RUN sed -i -r "s/^(DB_HOST=).*/\1$DB_HOST/" /var/www/rts-app/.env
